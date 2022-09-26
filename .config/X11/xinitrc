@@ -1,0 +1,4 @@
+pipewire &
+pipewire-pulse &
+xrdb -merge ~/.config/X11/xresources
+exec xmonad

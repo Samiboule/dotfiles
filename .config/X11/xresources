@@ -1,0 +1,11 @@
+Xft.dpi: 192
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+Xcursor.theme: Vanilla-DMZ
+Xcursor.size: 64
+Xmessage*font: -adobe-*-*-r-*--0-250-0-0-p-*-iso8859-1
+xterm*font: *-JetBrains Mono-*-*-*-18-*
