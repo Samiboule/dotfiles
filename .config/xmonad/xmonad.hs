@@ -25,7 +25,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_p     ), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/rofi.rasi")
 
     -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show window -theme Arc-Dark -config ~/.config/rofi/rofi.rasi")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill1)
@@ -200,9 +200,9 @@ help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "",
     "-- launching and killing programs",
-    "mod-Shift-Enter  Launch xterminal",
-    "mod-p            Launch dmenu",
-    "mod-Shift-p      Launch gmrun",
+    "mod-Shift-Enter  Launch terminal",
+    "mod-p            Launch application launcher",
+    "mod-Shift-p      Launch window switcher",
     "mod-Shift-c      Close/kill the focused window",
     "mod-v            Copy the focused window to all workspaces",
     "mod-Shift-v      Remove all instances of the focused window in other workspaces",
