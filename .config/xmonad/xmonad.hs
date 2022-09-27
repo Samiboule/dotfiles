@@ -4,11 +4,13 @@ import qualified Data.Map        as M
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe,safeSpawn)
+import XMonad.Util.WorkspaceCompare
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import System.Exit
+import XMonad.Actions.CopyWindow
 
 myTerminal = "alacritty"
 myModMask  = mod4Mask
@@ -20,13 +22,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run")
+    , ((modm,               xK_p     ), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/rofi.rasi")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
     -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
+    , ((modm .|. shiftMask, xK_c     ), kill1)
+    , ((modm, xK_v ), windows copyToAll) -- @@ Make focused window always visible
+    , ((modm .|. shiftMask, xK_v ),  killAllOtherCopies) -- @@ Toggle window state back
 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
@@ -83,7 +87,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q     ), io exitSuccess)
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart && notify-send recompiled!")
+    , ((modm              , xK_q     ), spawn "~/.config/xmonad/scripts/restart.sh && xmonad --recompile ; xmonad --restart && notify-send recompiled!")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), xmessage help)
@@ -91,12 +95,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ++
 
     --
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
-    --
+    -- mod-[1..9] @@ Switch to workspace N
+    -- mod-shift-[1..9] @@ Move client to workspace N
+    -- mod-control-shift-[1..9] @@ Copy client to workspace N
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, shiftMask .|. controlMask)]]
     ++
 
     --
@@ -141,8 +145,8 @@ myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
-    , className =? "lemonbar"   --> doIgnore
-    , resource =? "lemonbar"   --> doIgnore
+    , className =? "lemonbar"       --> doIgnore
+    , resource =? "lemonbar"        --> doIgnore
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
@@ -157,9 +161,24 @@ myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
 curr :: WorkspaceId -> String
 curr a = ""
 
-myPP = def { ppCurrent = curr }
+myPP = def { ppCurrent          = wrap "[" "]"
+           , ppVisible          = wrap "<" ">"
+           , ppHidden           = id
+           , ppHiddenNoWindows  = const ""
+           , ppVisibleNoWindows = Nothing
+           , ppUrgent           = id
+           , ppRename           = pure
+           , ppSep              = " : "
+           , ppWsSep            = " "
+           , ppTitle            = shorten 80
+           , ppLayout           = id
+           , ppOrder            = id
+           , ppOutput           = putStrLn
+           , ppSort             = getSortByIndex
+           , ppExtras           = []
+           }
 main = do
-  mySB <- statusBarPipe "~/.config/xmonad/scripts/lemonbar.sh | lemonbar -g 2760x40 -d -B #000000 -f \"JetBrains Mono\"" (pure myPP)
+  mySB <- statusBarPipe "~/.config/xmonad/scripts/lemonbar.sh | lemonbar -g 2760x40 -d -B \\#000000 -f \"JetBrains Mono\"" (pure myPP)
   xmonad . ewmhFullscreen . ewmh . docks . withSB mySB $ def
     { terminal           = myTerminal
     , modMask            = myModMask
@@ -185,6 +204,8 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-p            Launch dmenu",
     "mod-Shift-p      Launch gmrun",
     "mod-Shift-c      Close/kill the focused window",
+    "mod-v            Copy the focused window to all workspaces",
+    "mod-Shift-v      Remove all instances of the focused window in other workspaces",
     "mod-Space        Rotate through the available layout algorithms",
     "mod-Shift-Space  Reset the layouts on the current workSpace to default",
     "mod-n            Resize/refresh viewed windows to the correct size",
@@ -216,10 +237,11 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "-- quit, or restart",
     "mod-Shift-q  Quit xmonad",
     "mod-q        Restart xmonad",
-    "mod-[1..9]   Switch to workSpace N",
     "",
     "-- Workspaces & screens",
+    "mod-[1..9]   Switch to workSpace N",
     "mod-Shift-[1..9]   Move client to workspace N",
+    "mod-Shift-Ctrl-[1..9]   Copy client to workspace N",
     "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
     "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
     "",

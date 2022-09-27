@@ -6,9 +6,9 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-command = vim.api.nvim_create_user_command
+local command = vim.api.nvim_create_user_command
 
-vim.g.mapleader = "<Space>"
+vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 map('n', 'c', '"_c')
@@ -33,6 +33,8 @@ map('n', '<leader>bn', ':bn<CR>')
 map('n', '<leader>tn', 'gt')
 
 map('t', '<Esc', '<C-\\><C-n>')
+
+map('i', "<C-l>", '<c-g>u<Esc>[s1z=`]a<c-g>u')
 
 command('Config', ':e $MYVIMRC', {})
 
