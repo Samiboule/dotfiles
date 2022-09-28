@@ -11,6 +11,11 @@ import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import System.Exit
 import XMonad.Actions.CopyWindow
+import XMonad.Layout.Tabbed
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.Simplest
 
 myTerminal = "alacritty"
 myModMask  = mod4Mask
@@ -77,6 +82,20 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Deincrement the number of windows in the master area
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
 
+    -- Add windows to tab group
+    , ((modm .|. controlMask, xK_h), sendMessage $ pullGroup L)
+    , ((modm .|. controlMask, xK_l), sendMessage $ pullGroup R)
+    , ((modm .|. controlMask, xK_k), sendMessage $ pullGroup U)
+    , ((modm .|. controlMask, xK_j), sendMessage $ pullGroup D)
+
+    -- Merge and unmerge tab group
+    , ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll))
+    , ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge))
+
+    -- Skip over tab group
+    , ((modm .|. controlMask, xK_period), onGroup W.focusUp')
+    , ((modm .|. controlMask, xK_comma), onGroup W.focusDown')
+
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
@@ -87,7 +106,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q     ), io exitSuccess)
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "~/.config/xmonad/scripts/restart.sh && xmonad --recompile ; xmonad --restart && notify-send recompiled!")
+    , ((modm              , xK_q     ), spawn "~/.config/xmonad/scripts/restart.sh ; xmonad --recompile && xmonad --restart && notify-send recompiled!")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), xmessage help)
@@ -128,7 +147,11 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
+myTabConfig = def {
+    decoHeight = 40
+}
+
+myLayout = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -146,7 +169,7 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "lemonbar"       --> doIgnore
-    , resource =? "lemonbar"        --> doIgnore
+    , resource  =? "lemonbar"       --> doIgnore
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 

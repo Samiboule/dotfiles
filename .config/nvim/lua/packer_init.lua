@@ -41,6 +41,7 @@ require('packer').startup(function(use)
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate'
   }
+  use 'nvim-treesitter/nvim-treesitter-context'
   use 'neovim/nvim-lspconfig'
 
   if packer_bootstrap then
