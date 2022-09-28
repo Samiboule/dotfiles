@@ -16,6 +16,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Simplest
+import Data.List
 
 myTerminal = "alacritty"
 myModMask  = mod4Mask
@@ -184,6 +185,15 @@ myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
 curr :: WorkspaceId -> String
 curr a = ""
 
+myPPLayout :: String -> String
+myPPLayout x = if isInfixOf "Mirror" x
+                  then "M"
+               else if isInfixOf "Tall" x
+                  then "D"
+               else if isInfixOf "Tabbed" x
+                  then "T"
+               else ""
+
 myPP = def { ppCurrent          = wrap "[" "]"
            , ppVisible          = wrap "<" ">"
            , ppHidden           = id
@@ -194,7 +204,7 @@ myPP = def { ppCurrent          = wrap "[" "]"
            , ppSep              = " : "
            , ppWsSep            = " "
            , ppTitle            = shorten 80
-           , ppLayout           = id
+           , ppLayout           = myPPLayout
            , ppOrder            = id
            , ppOutput           = putStrLn
            , ppSort             = getSortByIndex
@@ -245,6 +255,13 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-Return   Swap the focused window and the master window",
     "mod-Shift-j  Swap the focused window with the next window",
     "mod-Shift-k  Swap the focused window with the previous window",
+    "",
+    "-- tab group operations",
+    "mod-Ctrl-{h,j,k,l} Merge into window",
+    "mod-Ctrl-m         Merge all windows",
+    "mod-Ctrl-u         Unmerge all windows",
+    "mod-Ctrl-.         Skip over group upwards",
+    "mod-Ctrl-,         Skip over group downwards",
     "",
     "-- resizing the master/slave ratio",
     "mod-h  Shrink the master area",
