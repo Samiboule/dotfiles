@@ -26,3 +26,9 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export EDITOR="nvim"
 export BROWSER="firefox"
 . "/home/smai/.local/share/cargo/env"
+export FZF_DEFAULT_COMMAND="find ."
+
+export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export LC_CTYPE=en_US.UTF-8

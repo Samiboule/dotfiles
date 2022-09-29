@@ -5,4 +5,5 @@ wmname "LG3D"
 stalonetray -c ~/.config/stalonetray/stalonetrayrc &
 nm-applet &
 pnmixer &
+fcitx -d &
 xcompmgr &

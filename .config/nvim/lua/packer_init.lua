@@ -15,17 +15,13 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'kevinhwang91/nvim-hlslens'
   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
-  -- or                            , branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
-  use {
       'numToStr/Comment.nvim',
       config = function()
           require('Comment').setup()
       end
   }
   use 'lewis6991/impatient.nvim'
+  use 'junegunn/fzf.vim'
   use 'nathom/filetype.nvim'
   use 'jreybert/vimagit'
   use 'lewis6991/gitsigns.nvim'

@@ -1,3 +1,6 @@
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
 alias startx="startx \"$XDG_CONFIG_HOME/X11/xinitrc\""
 alias ls="ls --color=always"
+v() {
+    nvim $(find . | fzf --height 40% --reverse)
+}
