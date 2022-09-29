@@ -17,6 +17,10 @@ import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Simplest
 import Data.List
+import Graphics.X11.ExtraTypes.XF86
+import XMonad.Actions.CycleWS
+import XMonad.Actions.Warp
+import Data.Ratio
 
 myTerminal = "alacritty"
 myModMask  = mod4Mask
@@ -111,7 +115,26 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), xmessage help)
+
+    -- CycleWS setup
+    , ((modm,               xK_Down),  nextWS)
+    , ((modm,               xK_Up),    prevWS)
+    , ((modm .|. shiftMask, xK_Down),  shiftToNext)
+    , ((modm .|. shiftMask, xK_Up),    shiftToPrev)
+    , ((modm,               xK_Right), nextScreen)
+    , ((modm,               xK_Left),  prevScreen)
+    , ((modm .|. shiftMask, xK_Right), shiftNextScreen)
+    , ((modm .|. shiftMask, xK_Left),  shiftPrevScreen)
+    , ((modm,               xK_y),     toggleWS)
+
+    -- @@ Move pointer to currently focused window
+    , ((modm,   xK_z     ), warpToWindow (1%2) (1%2))
     ]
+    ++
+
+    -- mod-ctrl-{w,e,r} @@ Move mouse pointer to screen 1, 2, or 3
+    [((modm .|. controlMask, key), warpToScreen sc (1%2) (1%2))
+        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]]
     ++
 
     --
@@ -284,6 +307,17 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-Shift-Ctrl-[1..9]   Copy client to workspace N",
     "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
     "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
+    "mod-down           Switch to next workspace",
+    "mod-up             Switch to previous workspace",
+    "mod-right          Switch to next screen",
+    "mod-left           Switch to previous screen",
+    "mod-Shift-right    Move client to next screen",
+    "mod-Shift-left     Move client to previous screen",
+    "mod-Shift-down     Move client to next workspace",
+    "mod-Shift-up       Move client to previous workspace",
+    "mod-y              Switch to latest workspace",
+    "mod-z              Move cursor to the focused window",
+    "mod-Ctrl-{w,e,r}   Move cursor to the given screen",
     "",
     "-- Mouse bindings: default actions bound to mouse events",
     "mod-button1  Set the window to floating mode and move by dragging",
