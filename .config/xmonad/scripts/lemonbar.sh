@@ -20,8 +20,8 @@ Battery() {
 
 #Get xmonad info
 XmonadInfo() {
-    read -r xmonad
-    echo "$xmonad"
+    read -r XMONAD
+    echo "$XMONAD"
 }
 
 #Get audio info

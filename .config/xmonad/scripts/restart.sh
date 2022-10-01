@@ -2,6 +2,5 @@
 
 pkill lemonbar
 pkill nm-applet
-pkill pnmixer
 pkill fcitx
 pkill stalonetray

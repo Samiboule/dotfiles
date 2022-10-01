@@ -107,6 +107,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --
     , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
+    -- Audio hotkeys
+    , ((0              , xF86XK_AudioMute), spawn "amixer sset Master toggle")
+    , ((0              , xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%+")
+    , ((0              , xF86XK_AudioLowerVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%-")
+
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io exitSuccess)
 
