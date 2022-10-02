@@ -13,7 +13,6 @@ local packer_bootstrap = ensure_packer()
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'kevinhwang91/nvim-hlslens'
   use {
       'numToStr/Comment.nvim',
       config = function()
@@ -31,7 +30,6 @@ require('packer').startup(function(use)
   use 'nvim-lualine/lualine.nvim'
   use 'simnalamburt/vim-mundo'
   use 'simeji/winresizer'
-  use 'petertriho/nvim-scrollbar'
   use 'moll/vim-bbye'
   use {
       'nvim-treesitter/nvim-treesitter',

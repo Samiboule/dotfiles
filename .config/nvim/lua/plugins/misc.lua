@@ -1,5 +1,3 @@
 require('colorizer').setup()
 require('gitsigns').setup()
 require('Comment').setup()
-require('scrollbar').setup()
-require("scrollbar.handlers.search").setup()

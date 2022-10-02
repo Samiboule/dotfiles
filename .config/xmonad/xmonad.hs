@@ -9,9 +9,11 @@ import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.SetWMName
 import System.Exit
 import XMonad.Actions.CopyWindow
 import XMonad.Layout.Tabbed
+import XMonad.Layout.NoBorders
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
@@ -108,9 +110,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Audio hotkeys
-    , ((0              , xF86XK_AudioMute), spawn "amixer sset Master toggle")
+    , ((0              , xF86XK_AudioMute),        spawn "amixer sset Master toggle")
     , ((0              , xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%+")
     , ((0              , xF86XK_AudioLowerVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%-")
+
+    -- Screenshot hotkeys
+    , ((0                              , xK_Print), spawn "maim -B ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'")
+    , ((controlMask                    , xK_Print), spawn "maim -B -s ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'")
+    , ((modm                           , xK_Print), spawn "maim -B -i $(xdotool getactivewindow) ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'")
+    , ((shiftMask                      , xK_Print), spawn "maim -B | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'")
+    , ((controlMask .|. shiftMask      , xK_Print), spawn "maim -B -s | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'")
+    , ((modm .|. shiftMask             , xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'")
 
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io exitSuccess)
@@ -180,7 +190,7 @@ myTabConfig = def {
     decoHeight = 40
 }
 
-myLayout = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
+myLayout = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts $ (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -195,7 +205,7 @@ myLayout = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Sim
      delta   = 3/100
 
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
+    [ className =? "mpv"            --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "lemonbar"       --> doIgnore
     , resource  =? "lemonbar"       --> doIgnore
@@ -207,6 +217,7 @@ myLogHook = return ()
 myStartupHook :: X ()
 myStartupHook = do
     spawn "~/.config/xmonad/scripts/startup.sh &"
+    setWMName "LG3D"
 
 myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
 

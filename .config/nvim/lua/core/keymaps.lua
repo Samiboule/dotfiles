@@ -13,10 +13,6 @@ vim.g.maplocalleader = ","
 
 map('n', 'c', '"_c')
 
-map('n', '<TAB>', '>>')
-map('n', '<S-TAB>', '<<')
-map('v', '<TAB>', '>gv')
-map('v', '<S-TAB>', '<gv')
 map('v', '>', '>gv')
 map('v', '<', '<gv')
 
