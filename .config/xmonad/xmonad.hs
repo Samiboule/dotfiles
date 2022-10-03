@@ -138,11 +138,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_Up),    prevWS)
     , ((modm .|. shiftMask, xK_Down),  shiftToNext)
     , ((modm .|. shiftMask, xK_Up),    shiftToPrev)
+    -- , ((modm .|. shiftMask, xK_Down), shiftToNext >> nextWS)
+    -- , ((modm .|. shiftMask, xK_Up),   shiftToPrev >> prevWS)
     , ((modm,               xK_Right), nextScreen)
     , ((modm,               xK_Left),  prevScreen)
     , ((modm .|. shiftMask, xK_Right), shiftNextScreen)
     , ((modm .|. shiftMask, xK_Left),  shiftPrevScreen)
     , ((modm,               xK_y),     toggleWS)
+    , ((modm,               xK_f),     moveTo Next emptyWS)  -- find a free workspace
+    , ((modm .|. shiftMask, xK_f),     shiftTo Next emptyWS)  -- find a free workspace
 
     -- @@ Move pointer to currently focused window
     , ((modm,   xK_z     ), warpToWindow (1%2) (1%2))
@@ -273,7 +277,7 @@ main = do
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String
-help = unlines ["The default modifier key is 'alt'. Default keybindings:",
+help = unlines ["The modifier key is 'super'. Keybindings:",
     "",
     "-- launching and killing programs",
     "mod-Shift-Enter  Launch terminal",
@@ -336,10 +340,26 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:",
     "mod-Shift-down     Move client to next workspace",
     "mod-Shift-up       Move client to previous workspace",
     "mod-y              Switch to latest workspace",
+    "mod-f              Switch to first empty workspace",
+    "mod-Shift-f        Move client to first empty workspace",
     "mod-z              Move cursor to the focused window",
     "mod-Ctrl-{w,e,r}   Move cursor to the given screen",
     "",
     "-- Mouse bindings: default actions bound to mouse events",
     "mod-button1  Set the window to floating mode and move by dragging",
     "mod-button2  Raise the window to the top of the stack",
-    "mod-button3  Set the window to floating mode and resize by dragging"]
+    "mod-button3  Set the window to floating mode and resize by dragging",
+    "",
+    "-- Audio hotkeys",
+    "Mute key           Simply mutes audio",
+    "Raise Volume key   Raise volume by 5%",
+    "Lower Volume key   Lower volume by 5%",
+    "",
+    "-- Screenshot hotkeys",
+    "prtscr             Fullscreen screenshot saved to the default screenshot directory",
+    "Ctrl-prtscr        Region screenshot saved to the default screenshot directory",
+    "mod-prtscr         Current window screenshot saved to the default screenshot directory",
+    "Shift-prtscr       Fullscreen screenshot saved to the clipboard",
+    "Shift-Ctrl-prtscr  Region screenshot saved to the clipboard",
+    "mod-Shift-prtscr   Current window screenshot saved to the clipboard"
+    ]
