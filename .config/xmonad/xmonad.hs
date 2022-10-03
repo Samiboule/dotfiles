@@ -2,6 +2,7 @@ import XMonad
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
+import XMonad.Hooks.ManageHelpers
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe,safeSpawn)
 import XMonad.Util.WorkspaceCompare
@@ -13,6 +14,7 @@ import XMonad.Hooks.SetWMName
 import System.Exit
 import XMonad.Actions.CopyWindow
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
@@ -190,7 +192,7 @@ myTabConfig = def {
     decoHeight = 40
 }
 
-myLayout = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts $ (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
+myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts $ (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -231,6 +233,8 @@ myPPLayout x = if isInfixOf "Mirror" x
                   then "D"
                else if isInfixOf "Tabbed" x
                   then "T"
+               else if isInfixOf "Full" x
+                  then "F"
                else ""
 
 myPP = def { ppCurrent          = wrap "[" "]"
