@@ -18,12 +18,6 @@ Battery() {
     echo "$BAT1STATUS B1: $BAT1PERC% | $BAT2STATUS B2: $BAT2PERC%"
 }
 
-#Get xmonad info
-XmonadInfo() {
-    read -r XMONAD
-    echo "$XMONAD"
-}
-
 #Get audio info
 Audio() {
     EVERYTHING=$(amixer get Master)
@@ -37,7 +31,4 @@ Audio() {
 }
 
 # Print everything
-while true; do
-    echo "%{l}$(XmonadInfo)%{r}$(Battery) | $(Audio) | $(Clock)"
-        sleep 0.1
-done
+echo "%{r}$(Battery) | $(Audio) | $(Clock)"

@@ -4,6 +4,7 @@ import qualified Data.Map        as M
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageHelpers
 import XMonad.Util.SpawnOnce
+import XMonad.Util.Loggers
 import XMonad.Util.Run(spawnPipe,safeSpawn)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Hooks.WindowSwallowing
@@ -255,10 +256,10 @@ myPP = def { ppCurrent          = wrap "[" "]"
            , ppOrder            = id
            , ppOutput           = putStrLn
            , ppSort             = getSortByIndex
-           , ppExtras           = []
+           , ppExtras           = [ logCmd "~/.config/xmonad/scripts/lemonbar.sh" ]
            }
 main = do
-  mySB <- statusBarPipe "~/.config/xmonad/scripts/lemonbar.sh | lemonbar -g 2760x40 -d -B \\#000000 -f \"JetBrains Mono\"" (pure myPP)
+  mySB <- statusBarPipe "lemonbar -g 2760x40 -d -B \\#000000 -f \"JetBrains Mono\"" (pure myPP)
   xmonad . ewmhFullscreen . ewmh . docks . withSB mySB $ def
     { terminal           = myTerminal
     , modMask            = myModMask
