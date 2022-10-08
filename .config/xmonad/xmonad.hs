@@ -7,6 +7,7 @@ import XMonad
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
 import XMonad.Actions.Warp
+import XMonad.Actions.FloatKeys
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -32,6 +33,13 @@ myTerminal = "alacritty"
 myModMask = mod4Mask
 
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+floatBranch :: X () -> X () -> Window -> X ()
+floatBranch t f w = do
+  XState {windowset = s} <- get
+  if M.member w (W.floating s)
+    then t
+    else f
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
@@ -62,10 +70,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_m), windows W.focusMaster),
       -- Swap the focused window and the master window
       ((modm, xK_Return), windows W.swapMaster),
+      -- Move floating windows
+      ((modm .|. shiftMask, xK_h), withFocused (keysMoveWindow (-80, 0))),
+      ((modm .|. shiftMask, xK_l), withFocused (keysMoveWindow (80, 0))),
       -- Swap the focused window with the next window
-      ((modm .|. shiftMask, xK_j), windows W.swapDown),
+      ((modm .|. shiftMask, xK_j),
+        (withFocused (floatBranch (withFocused (keysMoveWindow (0, 80))) (windows W.swapDown)))),
       -- Swap the focused window with the previous window
-      ((modm .|. shiftMask, xK_k), windows W.swapUp),
+      ((modm .|. shiftMask, xK_k),
+        (withFocused (floatBranch (withFocused (keysMoveWindow (0, -80))) (windows W.swapUp)))),
       -- Shrink the master area
       ((modm, xK_h), sendMessage Shrink),
       -- Expand the master area
@@ -76,11 +89,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_comma), sendMessage (IncMasterN 1)),
       -- Deincrement the number of windows in the master area
       ((modm, xK_period), sendMessage (IncMasterN (-1))),
-      -- Add windows to tab group
-      ((modm .|. controlMask, xK_h), sendMessage $ pullGroup L),
-      ((modm .|. controlMask, xK_l), sendMessage $ pullGroup R),
-      ((modm .|. controlMask, xK_k), sendMessage $ pullGroup U),
-      ((modm .|. controlMask, xK_j), sendMessage $ pullGroup D),
+      -- Add windows to tab group or resize floating window
+      ((modm .|. controlMask, xK_h),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (-80, 0)) (0, 0))) (sendMessage (pullGroup L))))),
+      ((modm .|. controlMask, xK_l),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (80, 0)) (0, 0))) (sendMessage (pullGroup R))))),
+      ((modm .|. controlMask, xK_k),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, -80)) (0, 0))) (sendMessage (pullGroup U))))),
+      ((modm .|. controlMask, xK_j),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, 80)) (0, 0))) (sendMessage (pullGroup D))))),
       -- Merge and unmerge tab group
       ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll)),
       ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge)),
@@ -172,15 +189,14 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
       -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-myTabConfig =
-  def
-    { decoHeight = 40
-    }
-
-myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ avoidStruts $ (tiled ||| Mirror tiled ||| tabbed shrinkText myTabConfig)
+myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ avoidStruts $ (tiled ||| mtiled ||| tabular)
   where
     -- default tiling algorithm partitions the screen into two panes
-    tiled = Tall nmaster delta ratio
+    tiled = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ Tall nmaster delta ratio
+    mtiled = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ Mirror $ Tall nmaster delta ratio
+
+    -- tabbed layout
+    tabular = tabbed shrinkText myTabConfig
 
     -- The default number of windows in the master pane
     nmaster = 1
@@ -191,9 +207,17 @@ myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ windowNavigation $ add
     -- Percent of screen to increment by when resizing panes
     delta = 3 / 100
 
+    -- tab decorations
+    myTabConfig =
+      def
+        { decoHeight = 40
+        }
+
 myManageHook =
   composeAll
     [ className =? "mpv" --> doFloat,
+      className =? "Pcmanfm" --> doCenterFloat,
+      className =? "fAlacritty" --> doCenterFloat,
       className =? "Gimp" --> doFloat,
       className =? "lemonbar" --> doIgnore,
       resource =? "lemonbar" --> doIgnore,

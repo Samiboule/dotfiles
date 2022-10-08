@@ -29,7 +29,7 @@ opt.matchpairs:append '<:>'
 opt.hidden = true
 opt.laststatus = 2
 opt.updatetime = 300
-opt.completeopt='menu,menuone,noselect'
+opt.completeopt = 'menu,menuone,noselect'
 
 vim.api.nvim_command('syntax on')
 -- opt.statusline='%m\ %F\ %y\ %{&fileencoding?&fileencoding:&encoding}\ %=%(C:%c\ L:%l\ %P%)'
