@@ -6,8 +6,8 @@ import System.Exit
 import XMonad
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
-import XMonad.Actions.Warp
 import XMonad.Actions.FloatKeys
+import XMonad.Actions.Warp
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -74,11 +74,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm .|. shiftMask, xK_h), withFocused (keysMoveWindow (-80, 0))),
       ((modm .|. shiftMask, xK_l), withFocused (keysMoveWindow (80, 0))),
       -- Swap the focused window with the next window
-      ((modm .|. shiftMask, xK_j),
-        (withFocused (floatBranch (withFocused (keysMoveWindow (0, 80))) (windows W.swapDown)))),
+      ( (modm .|. shiftMask, xK_j),
+        (withFocused (floatBranch (withFocused (keysMoveWindow (0, 80))) (windows W.swapDown)))
+      ),
       -- Swap the focused window with the previous window
-      ((modm .|. shiftMask, xK_k),
-        (withFocused (floatBranch (withFocused (keysMoveWindow (0, -80))) (windows W.swapUp)))),
+      ( (modm .|. shiftMask, xK_k),
+        (withFocused (floatBranch (withFocused (keysMoveWindow (0, -80))) (windows W.swapUp)))
+      ),
       -- Shrink the master area
       ((modm, xK_h), sendMessage Shrink),
       -- Expand the master area
@@ -90,14 +92,18 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Deincrement the number of windows in the master area
       ((modm, xK_period), sendMessage (IncMasterN (-1))),
       -- Add windows to tab group or resize floating window
-      ((modm .|. controlMask, xK_h),
-        (withFocused (floatBranch (withFocused ((keysResizeWindow (-80, 0)) (0, 0))) (sendMessage (pullGroup L))))),
-      ((modm .|. controlMask, xK_l),
-        (withFocused (floatBranch (withFocused ((keysResizeWindow (80, 0)) (0, 0))) (sendMessage (pullGroup R))))),
-      ((modm .|. controlMask, xK_k),
-        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, -80)) (0, 0))) (sendMessage (pullGroup U))))),
-      ((modm .|. controlMask, xK_j),
-        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, 80)) (0, 0))) (sendMessage (pullGroup D))))),
+      ( (modm .|. controlMask, xK_h),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (-80, 0)) (0, 0))) (sendMessage (pullGroup L))))
+      ),
+      ( (modm .|. controlMask, xK_l),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (80, 0)) (0, 0))) (sendMessage (pullGroup R))))
+      ),
+      ( (modm .|. controlMask, xK_k),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, -80)) (0, 0))) (sendMessage (pullGroup U))))
+      ),
+      ( (modm .|. controlMask, xK_j),
+        (withFocused (floatBranch (withFocused ((keysResizeWindow (0, 80)) (0, 0))) (sendMessage (pullGroup D))))
+      ),
       -- Merge and unmerge tab group
       ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll)),
       ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge)),
@@ -120,10 +126,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((shiftMask, xK_Print), spawn "maim -B | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
       ((controlMask .|. shiftMask, xK_Print), spawn "maim -B -s | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
       ((modm .|. shiftMask, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
+      -- Mount drives
+      ((modm, xK_u), spawn "~/.config/xmonad/scripts/mount.sh"),
+      ((modm .|. shiftMask, xK_u), spawn "~/.config/xmonad/scripts/unmount.sh"),
       -- Quit xmonad
       ((modm .|. shiftMask, xK_q), io exitSuccess),
       -- Restart xmonad
-      ((modm, xK_q), spawn "~/.config/xmonad/scripts/restart.sh ; xmonad --recompile && xmonad --restart && notify-send recompiled!"),
+      ((modm, xK_q), spawn "xmonad --recompile && xmonad --restart && notify-send recompiled!"),
       -- Run xmessage with a summary of the default keybindings (useful for beginners)
       ((modm .|. shiftMask, xK_slash), xmessage help),
       -- CycleWS setup
@@ -217,6 +226,7 @@ myManageHook =
   composeAll
     [ className =? "mpv" --> doFloat,
       className =? "Pcmanfm" --> doCenterFloat,
+      className =? "Xfce-polkit" --> doCenterFloat,
       className =? "fAlacritty" --> doCenterFloat,
       className =? "Gimp" --> doFloat,
       className =? "lemonbar" --> doIgnore,
@@ -229,7 +239,7 @@ myLogHook = return ()
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "~/.config/xmonad/scripts/startup.sh &"
+  spawnOnce "~/.config/xmonad/scripts/startup.sh &"
   setWMName "LG3D"
 
 myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
@@ -332,7 +342,9 @@ help =
       "mod-l  Expand the master area",
       "",
       "-- floating layer support",
-      "mod-t  Push window back into tiling; unfloat and re-tile it",
+      "mod-t               Push window back into tiling; unfloat and re-tile it",
+      "mod-Shift-{h,j,k,l} Move window in corresponding direction",
+      "mod-Ctrl-{h,j,k,l}  Resize window in corresponding direction",
       "",
       "-- increase or decrease number of windows in the master area",
       "mod-comma  (mod-,)   Increment the number of windows in the master area",
@@ -366,6 +378,10 @@ help =
       "mod-button1  Set the window to floating mode and move by dragging",
       "mod-button2  Raise the window to the top of the stack",
       "mod-button3  Set the window to floating mode and resize by dragging",
+      "",
+      "-- Mount and unmount",
+      "mod-u              Mount drive",
+      "mod-Shift-u        Unmount drive",
       "",
       "-- Audio hotkeys",
       "Mute key           Simply mutes audio",

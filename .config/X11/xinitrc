@@ -1,7 +1,8 @@
+xrdb -merge ~/.config/X11/xresources
 if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
         export $(dbus-launch)
 fi
 pipewire &
 pipewire-pulse &
-xrdb -merge ~/.config/X11/xresources
+/usr/libexec/xfce-polkit &
 exec xmonad

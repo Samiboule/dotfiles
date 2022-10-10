@@ -29,6 +29,7 @@ export BROWSER="firefox"
 . "/home/smai/.local/share/cargo/env"
 export FZF_DEFAULT_COMMAND="find ."
 export TERMINAL=/usr/bin/alacritty
+export GTK_THEME=Adwaita:dark
 
 export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx
