@@ -20,13 +20,13 @@ Battery() {
 
 #Get audio info
 Audio() {
-    EVERYTHING=$(amixer get Master)
-    MUTED=$(echo "$EVERYTHING" | grep "off")
+    VOL=$(pactl get-sink-volume 0 | awk -F/ 'FNR == 1 { gsub(/^[ \t]+/, "", $2); gsub(/[ \t]+$/, "", $2); print $2 }')
+    MUTED=$(pactl get-sink-mute 0 | grep "yes")
     if [ -n "$MUTED" ]
     then
         echo "M"
     else
-        echo "$(echo "$EVERYTHING" | grep -i "left: playback" | sed 's/[^\[]*\[//' | sed 's/%.*//')%"
+        echo "$VOL"
     fi
 }
 

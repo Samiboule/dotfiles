@@ -25,6 +25,8 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 
 export EDITOR="nvim"
+export PAGER="less"
+export VISUAL="nvim"
 export BROWSER="firefox"
 . "/home/smai/.local/share/cargo/env"
 export FZF_DEFAULT_COMMAND="find ."

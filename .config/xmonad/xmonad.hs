@@ -41,6 +41,14 @@ floatBranch t f w = do
     then t
     else f
 
+toggleFloat :: Window -> X ()
+toggleFloat w =
+  windows
+    ( \s ->
+      if M.member w (W.floating s)
+        then W.sink w s
+        else (W.float w (W.RationalRect (1/4) (1/4) (1/2) (1/2)) s))
+
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- launch a terminal
@@ -86,7 +94,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Expand the master area
       ((modm, xK_l), sendMessage Expand),
       -- Push window back into tiling
-      ((modm, xK_t), withFocused $ windows . W.sink),
+      ((modm, xK_t), withFocused $ toggleFloat),
       -- Increment the number of windows in the master area
       ((modm, xK_comma), sendMessage (IncMasterN 1)),
       -- Deincrement the number of windows in the master area
@@ -117,15 +125,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_b), sendMessage ToggleStruts),
       -- Audio hotkeys
       ((0, xF86XK_AudioMute), spawn "amixer sset Master toggle"),
-      ((0, xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%+"),
-      ((0, xF86XK_AudioLowerVolume), spawn "amixer sset Master unmute ; amixer sset Master 5%-"),
+      ((0, xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; pactl set-sink-volume 0 +5%"),
+      ((0, xF86XK_AudioLowerVolume), spawn "amixer sset Master unmute ; pactl set-sink-volume 0 -5%"),
       -- Screenshot hotkeys
-      ((0, xK_Print), spawn "maim -B ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'"),
-      ((controlMask, xK_Print), spawn "maim -B -s ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'"),
-      ((modm, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) ~/screenshots/$(date +%s).png && notify-send 'Screenshot taken!'"),
-      ((shiftMask, xK_Print), spawn "maim -B | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
-      ((controlMask .|. shiftMask, xK_Print), spawn "maim -B -s | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
-      ((modm .|. shiftMask, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot taken!'"),
+      ((0, xK_Print), spawn "date --iso-8601=seconds | xargs -I {} sh -c 'maim -B ~/screenshots/{}.png && notify-send \"Screenshot saved to ~/screenshots/{}.png!\"'"),
+      ((controlMask, xK_Print), spawn "date --iso-8601=seconds | xargs -I {} sh -c 'maim -B -s ~/screenshots/{}.png && notify-send \"Screenshot saved to ~/screenshots/{}.png!\"'"),
+      ((modm, xK_Print), spawn "date --iso-8601=seconds | xargs -I {} sh -c 'maim -B -i $(xdotool getactivewindow) ~/screenshots/{}.png && notify-send \"Screenshot saved to ~/screenshots/{}.png!\"'"),
+      ((shiftMask, xK_Print), spawn "maim -B | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
+      ((controlMask .|. shiftMask, xK_Print), spawn "maim -B -s | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
+      ((modm .|. shiftMask, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
       -- Mount drives
       ((modm, xK_u), spawn "~/.config/xmonad/scripts/mount.sh"),
       ((modm .|. shiftMask, xK_u), spawn "~/.config/xmonad/scripts/unmount.sh"),
