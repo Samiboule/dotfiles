@@ -10,6 +10,6 @@ cmd open ${{
 	audio/*) mpv --audio-display=no $f ;;
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
 	application/pgp-encrypted) $EDITOR $fx ;;
-        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+        *) for f in $fx; do $OPENER $f ; done;;
     esac
 }}

@@ -136,7 +136,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm .|. shiftMask, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
       -- Mount drives
       ((modm, xK_u), spawn "mountscript"),
-      ((modm .|. shiftMask, xK_u), spawn "~/.config/xmonad/scripts/unmountscript"),
+      ((modm .|. shiftMask, xK_u), spawn "unmountscript"),
       -- Quit xmonad
       ((modm .|. shiftMask, xK_q), io exitSuccess),
       -- Restart xmonad
