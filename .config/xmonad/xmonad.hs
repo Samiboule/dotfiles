@@ -233,9 +233,9 @@ myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ avoidStruts $ (tiled |
 myManageHook =
   composeAll
     [ className =? "mpv" --> doFloat,
-      className =? "Pcmanfm" --> doCenterFloat,
+      className =? "Pcmanfm" --> (doRectFloat ((((W.RationalRect (1/4)) (1/4)) (1/2)) (1/2))),
       className =? "Xfce-polkit" --> doCenterFloat,
-      className =? "fAlacritty" --> doCenterFloat,
+      className =? "fAlacritty" --> (doRectFloat ((((W.RationalRect (1/4)) (1/4)) (1/2)) (1/2))),
       className =? "Gimp" --> doFloat,
       className =? "lemonbar" --> doIgnore,
       resource =? "lemonbar" --> doIgnore,

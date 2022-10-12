@@ -29,6 +29,10 @@ map('n', '<leader>bn', ':bn<CR>')
 map('n', '<leader>tn', 'gt')
 
 map('t', '<Esc', '<C-\\><C-n>')
+map('t', '<C-h>', '<C-\\><C-n><C-w>h')
+map('t', '<C-j>', '<C-\\><C-n><C-w>j')
+map('t', '<C-k>', '<C-\\><C-n><C-w>k')
+map('t', '<C-l>', '<C-\\><C-n><C-w>l')
 
 map('i', "<C-l>", '<c-g>u<Esc>[s1z=`]a<c-g>u')
 
