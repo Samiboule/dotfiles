@@ -1,0 +1,12 @@
+#!/bin/sh
+
+candidates=$(ls ~/usb)
+mountpoints=$(echo "$candidates" | xargs -I {} mountpoint ~/usb/{} | grep -v not | cut --delimiter=' ' -f1)
+if [ -z "$mountpoints" ]; then
+    notify-send "No drives to unmount"
+else
+    finaldir=$(echo "$mountpoints" | rofi -dmenu -p "Unmount where?" -theme Arc-Dark -config ~/.config/rofi/rofi.rasi)
+    sudo umount $finaldir
+    rm -r $finaldir
+    notify-send "Unmounted $finaldir"
+fi

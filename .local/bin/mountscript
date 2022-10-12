@@ -1,0 +1,23 @@
+#!/bin/sh
+
+pgrep -x rofi && exit
+
+mountable=$(lsblk -lp | grep "part $" | grep -v "nvme0n1p2\|nvme0n1p4" | awk '{print $1, "(" $4 ")"}')
+if [ -z "$mountable" ]; then
+    notify-send "No drives to mount"
+    exit 1
+fi
+chosen=$(echo "$mountable" | rofi -dmenu -p "Mount which drive?" -theme Arc-Dark -config ~/.config/rofi/rofi.rasi | cut --delimiter=' ' -f1)
+if [ -z "$chosen" ]; then
+    exit 1
+fi
+sudo mount "$chosen" && exit 0
+candidates=$(ls ~/usb)
+mountpoints=$(echo "$candidates" | xargs -I {} mountpoint ~/usb/{} | grep not | cut --delimiter=' ' -f1)
+if [ -z "$mountpoints" ]; then
+    finaldir=~/usb/$(echo "$candidates" | wc -l)
+    mkdir $finaldir
+else
+    finaldir=$(echo "$mountpoints" | rofi -dmenu -p "Mount where?" -theme Arc-Dark -config ~/.config/rofi/rofi.rasi)
+fi
+sudo mount "$chosen" "$finaldir" && notify-send "$chosen mounted to $finaldir"

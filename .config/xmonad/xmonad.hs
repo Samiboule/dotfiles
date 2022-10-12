@@ -135,8 +135,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((controlMask .|. shiftMask, xK_Print), spawn "maim -B -s | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
       ((modm .|. shiftMask, xK_Print), spawn "maim -B -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png -i && notify-send 'Screenshot saved to clipboard!'"),
       -- Mount drives
-      ((modm, xK_u), spawn "~/.config/xmonad/scripts/mount.sh"),
-      ((modm .|. shiftMask, xK_u), spawn "~/.config/xmonad/scripts/unmount.sh"),
+      ((modm, xK_u), spawn "mountscript"),
+      ((modm .|. shiftMask, xK_u), spawn "~/.config/xmonad/scripts/unmountscript"),
       -- Quit xmonad
       ((modm .|. shiftMask, xK_q), io exitSuccess),
       -- Restart xmonad
@@ -247,7 +247,7 @@ myLogHook = return ()
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawnOnce "~/.config/xmonad/scripts/startup.sh &"
+  spawnOnce "startupscript &"
   setWMName "LG3D"
 
 myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
@@ -286,7 +286,7 @@ myPP =
       ppOrder = id,
       ppOutput = putStrLn,
       ppSort = getSortByIndex,
-      ppExtras = [logCmd "~/.config/xmonad/scripts/lemonbar.sh"]
+      ppExtras = [logCmd "lemonbarscript"]
     }
 
 main = do
