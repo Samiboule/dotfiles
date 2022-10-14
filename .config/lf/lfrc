@@ -1,6 +1,10 @@
 set previewer '~/.config/lf/scope'
 set cleaner '~/.config/lf/cleaner'
 set hidden on
+set number
+set relativenumber
+set mouse
+set wrapscroll
 
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
