@@ -3,6 +3,7 @@ alias startx="startx \"$XDG_CONFIG_HOME/X11/xinitrc\""
 alias ls="ls --color=always"
 alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
 alias lf=lfub
+alias grep="grep --color=always"
 v() {
     nvim $(find . | fzf --height 40% --reverse)
 }

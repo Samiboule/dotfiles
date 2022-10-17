@@ -38,3 +38,4 @@ for _, lsp in pairs(servers) do
     on_attach = on_attach,
   }
 end
+

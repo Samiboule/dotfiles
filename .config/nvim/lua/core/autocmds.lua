@@ -11,7 +11,12 @@ autocmd('TextYankPost', {
 
 autocmd('BufWritePre', {
   pattern = '*',
-  command = ':%s/\\s\\+$//e'
+  command = '%s/\\s\\+$//e'
+})
+
+autocmd('BufwritePre', {
+  pattern = '*',
+  command = '%s/\\(\\n\\s*\\)*\\%$//e'
 })
 
 autocmd('BufEnter', {

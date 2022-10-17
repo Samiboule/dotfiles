@@ -21,7 +21,6 @@ require('packer').startup(function(use)
   }
   use 'lewis6991/impatient.nvim'
   use 'winston0410/cmd-parser.nvim'
-  use 'winston0410/range-highlight.nvim'
   use 'junegunn/fzf.vim'
   use 'nathom/filetype.nvim'
   use 'jreybert/vimagit'
