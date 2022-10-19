@@ -8,7 +8,7 @@ set wrapscroll
 
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
-    text/*|application/json|inode/x-empty) $EDITOR $fx;;
+    text/*|application/json|application/postscript|inode/x-empty) $EDITOR $fx;;
 	image/svg+xml) display -- $f ;;
 	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | nsxiv -ai;;
 	audio/*) mpv --audio-display=no $f ;;
