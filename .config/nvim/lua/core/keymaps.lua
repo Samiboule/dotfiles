@@ -28,9 +28,10 @@ map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>"', { silent = false })
 map('n', '<leader>bn', ':bn<CR>')
 map('n', '<leader>tn', 'gt')
 
-map('n', '<leader>p', ':vsp | term swipl %<CR>')
+map('n', '<leader>v', ':setlocal ve=all<CR>')
+map('n', '<leader>u', ':setlocal ve=""<CR>')
 
-map('t', '<Esc', '<C-\\><C-n>')
+map('t', '<Esc>', '<C-\\><C-n>')
 map('t', '<C-h>', '<C-\\><C-n><C-w>h')
 map('t', '<C-j>', '<C-\\><C-n><C-w>j')
 map('t', '<C-k>', '<C-\\><C-n><C-w>k')

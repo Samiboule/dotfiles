@@ -32,8 +32,77 @@ require('nightfox').setup({
   specs = {},
   groups = {},
 })
+
+local colors = require("catppuccin.palettes").get_palette()
+colors.none = "NONE"
+
+require("catppuccin").setup({
+	compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
+	transparent_background = true,
+	term_colors = true,
+	dim_inactive = {
+		enabled = false,
+		shade = "dark",
+		percentage = 0.15,
+	},
+	styles = {
+		comments = { "italic" },
+		conditionals = { "italic" },
+		loops = {},
+		functions = {},
+		keywords = {},
+		strings = {},
+		variables = {},
+		numbers = {},
+		booleans = {},
+		properties = {},
+		types = {},
+		operators = {},
+	},
+	integrations = {
+		cmp = true,
+		gitsigns = true,
+    treesitter_context = true,
+		treesitter = true,
+    native_lsp = {
+      enabled = true,
+      virtual_text = {
+        errors = { "italic" },
+        hints = { "italic" },
+        warnings = { "italic" },
+        information = { "italic" },
+      },
+      underlines = {
+        errors = { "underline" },
+        hints = { "underline" },
+        warnings = { "underline" },
+        information = { "underline" },
+      },
+    },
+    dap = {
+        enabled = true,
+        enable_ui = true, -- enable nvim-dap-ui
+      }
+		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+	},
+	color_overrides = {},
+  custom_highlights = {
+      Comment = { fg = colors.overlay1 },
+      LineNr = { fg = colors.overlay1 },
+      debugBreakPoint = { fg = '#AA0000' },
+      CursorLine = { bg = colors.none },
+      CursorLineNr = { fg = colors.lavender },
+      DiagnosticVirtualTextError = { bg = colors.none },
+      DiagnosticVirtualTextWarn = { bg = colors.none },
+      DiagnosticVirtualTextInfo = { bg = colors.none },
+      DiagnosticVirtualTextHint = { bg = colors.none },
+    },
+})
+
 vim.cmd([[
-colorscheme nightfox
+let g:catppuccin_flavour = "mocha"
+
+colorscheme catppuccin
 " transparent bg
 " hi Normal guibg=NONE ctermbg=NONE
 " hi clear LineNr

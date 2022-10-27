@@ -29,7 +29,9 @@ opt.matchpairs:append '<:>'
 opt.hidden = true
 opt.laststatus = 2
 opt.updatetime = 300
-opt.completeopt = 'menu,menuone,noselect'
+opt.completeopt = "menu,menuone,noselect"
+g.termdebug_wide = 163
+opt.nrformats = "alpha,octal,bin,hex,unsigned"
 
 vim.api.nvim_command('syntax on')
 -- opt.statusline='%m\ %F\ %y\ %{&fileencoding?&fileencoding:&encoding}\ %=%(C:%c\ L:%l\ %P%)'

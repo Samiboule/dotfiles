@@ -20,24 +20,38 @@ require('packer').startup(function(use)
     end
   }
   use 'lewis6991/impatient.nvim'
-  use 'winston0410/cmd-parser.nvim'
   use 'junegunn/fzf.vim'
   use 'nathom/filetype.nvim'
-  use 'jreybert/vimagit'
   use 'lewis6991/gitsigns.nvim'
   use 'lervag/vimtex'
-  use "EdenEast/nightfox.nvim"
+  use 'EdenEast/nightfox.nvim'
+  use {'catppuccin/nvim', as = 'catppuccin'}
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use 'norcalli/nvim-colorizer.lua'
   use 'nvim-lualine/lualine.nvim'
-  use 'simnalamburt/vim-mundo'
-  use 'simeji/winresizer'
+  use 'mbbill/undotree'
   use 'moll/vim-bbye'
+  use 'anuvyklack/hydra.nvim'
+  use "jbyuki/venn.nvim"
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
   use 'nvim-treesitter/nvim-treesitter-context'
   use 'neovim/nvim-lspconfig'
+  use	'windwp/nvim-autopairs'
+
+  --[[ use 'mfussenegger/nvim-dap'
+  use 'rcarriga/nvim-dap-ui'
+  use 'theHamsta/nvim-dap-virtual-text' ]]
+
+  use 'L3MON4D3/LuaSnip'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
+  use 'saadparwaiz1/cmp_luasnip'
 
   if packer_bootstrap then
     require('packer').sync()

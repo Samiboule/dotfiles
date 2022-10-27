@@ -1,3 +1,4 @@
 require('colorizer').setup()
-require('gitsigns').setup()
 require('Comment').setup()
+require('nvim-autopairs').setup()
+require('gitsigns').setup()

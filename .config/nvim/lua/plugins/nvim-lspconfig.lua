@@ -1,7 +1,24 @@
+-- Have borders
+vim.lsp.handlers["textDocument/hover"] =
+  vim.lsp.with(
+  vim.lsp.handlers.hover,
+  {
+    border = "rounded"
+  }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] =
+  vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  {
+    border = "rounded"
+  }
+)
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({border = "rounded"})<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
@@ -38,4 +55,3 @@ for _, lsp in pairs(servers) do
     on_attach = on_attach,
   }
 end
-

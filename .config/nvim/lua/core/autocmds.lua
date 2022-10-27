@@ -5,7 +5,7 @@ local function TrimWhiteSpace()
   local save = vim.fn.winsaveview()
   vim.cmd([[
   keeppatterns %s/\s\+$//e
-  keeppatterns %s/\(\n\s*\)*\%$//e
+  keeppatterns %s/\(\n\s*\)\+\%$//e
   ]])
   vim.fn.winrestview(save)
 end
@@ -23,6 +23,11 @@ autocmd('BufEnter', {
   group = 'BuildSystems',
   pattern = '*.rs',
   command = 'set makeprg=cargo\\ build\\ $*'
+})
+autocmd('BufEnter', {
+  group = 'BuildSystems',
+  pattern = '*.pl',
+  command = 'nnoremap <leader>p :w<CR>:vsp<CR>:term swipl %<CR>'
 })
 
 augroup('NumberToggle', { clear = true })
