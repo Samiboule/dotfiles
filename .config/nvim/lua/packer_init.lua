@@ -20,7 +20,7 @@ require('packer').startup(function(use)
     end
   }
   use 'lewis6991/impatient.nvim'
-  use 'junegunn/fzf.vim'
+  use 'ibhagwan/fzf-lua'
   use 'nathom/filetype.nvim'
   use 'lewis6991/gitsigns.nvim'
   use 'lervag/vimtex'
@@ -28,9 +28,9 @@ require('packer').startup(function(use)
   use {'catppuccin/nvim', as = 'catppuccin'}
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use 'norcalli/nvim-colorizer.lua'
+  use 'jinh0/eyeliner.nvim'
   use 'nvim-lualine/lualine.nvim'
   use 'mbbill/undotree'
-  use 'moll/vim-bbye'
   use 'anuvyklack/hydra.nvim'
   use "jbyuki/venn.nvim"
   use {

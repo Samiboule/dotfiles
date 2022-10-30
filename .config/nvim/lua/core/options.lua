@@ -30,6 +30,8 @@ opt.hidden = true
 opt.laststatus = 2
 opt.updatetime = 300
 opt.completeopt = "menu,menuone,noselect"
+opt.showbreak=">>"
+opt.breakindent=true
 g.termdebug_wide = 163
 opt.nrformats = "alpha,octal,bin,hex,unsigned"
 
