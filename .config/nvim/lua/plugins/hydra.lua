@@ -48,16 +48,20 @@ Hydra({
 		{ "<C-l>", "<C-w>l" },
 
 		-- resizing windows
-		{ "H", "<C-w>3<" },
-		{ "L", "<C-w>3>" },
-		{ "K", "<C-w>2+" },
-		{ "J", "<C-w>2-" },
+		{ "h", "<C-w>3<" },
+		{ "l", "<C-w>3>" },
+		{ "k", "<C-w>2+" },
+		{ "j", "<C-w>2-" },
 
 		-- moving windows
-		{ "<Left>", "<C-w>H" },
-		{ "<Down>", "<C-w>J" },
-		{ "<Up>", "<C-w>K" },
-		{ "<Right>", "<C-w>L" },
+		{ "H", "<C-w>H:lua require('lualine').refresh()<CR>" },
+		{ "J", "<C-w>J:lua require('lualine').refresh()<CR>" },
+		{ "K", "<C-w>K:lua require('lualine').refresh()<CR>" },
+		{ "L", "<C-w>L:lua require('lualine').refresh()<CR>" },
+		{ "r", "<C-w>r:lua require('lualine').refresh()<CR>" },
+		{ "R", "<C-w>R:lua require('lualine').refresh()<CR>" },
+		{ "x", "<C-w>x:lua require('lualine').refresh()<CR>" },
+		{ "X", "<C-w>X:lua require('lualine').refresh()<CR>" },
 
     -- create splits
     { "S", "<C-w>s"},

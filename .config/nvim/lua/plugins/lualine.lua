@@ -10,6 +10,15 @@ local function wordCount()
   return vim.g.wordCountCache
 end
 
+local function charFiller()
+  if vim.fn.winnr() ~= vim.fn.winnr('j') then
+    vim.opt_local.fillchars:append 'stlnc:─'
+  else
+    vim.opt_local.fillchars:append 'stlnc: '
+  end
+  return ""
+end
+
 require('lualine').setup {
   options = {
     icons_enabled = false,
@@ -24,7 +33,7 @@ require('lualine').setup {
   sections = {
     lualine_a = { 'mode', spellEnabled },
     lualine_b = { 'branch', 'diff', 'diagnostics' },
-    lualine_c = { 'filename' },
+    lualine_c = { 'filename', charFiller },
     lualine_x = { wordCount, 'encoding', 'filetype' },
     lualine_y = { 'progress' },
     lualine_z = { 'location' }
@@ -32,8 +41,8 @@ require('lualine').setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { 'filename' },
-    lualine_x = { 'location' },
+    lualine_c = { charFiller, { 'filename', color = { fg = '#7f849c' } } },
+    lualine_x = { { 'location', color = { fg = '#7f849c' } } },
     lualine_y = {},
     lualine_z = {}
   },

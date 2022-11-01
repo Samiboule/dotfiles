@@ -40,7 +40,7 @@ font:
     style: Bold
   italic:
     family: JetBrains Mono
-    style: bold
+    style: Italic
 
 window:
   opacity: 0.9

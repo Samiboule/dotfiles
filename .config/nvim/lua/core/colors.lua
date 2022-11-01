@@ -80,8 +80,8 @@ require("catppuccin").setup({
       },
     },
     dap = {
-        enabled = true,
-        enable_ui = true, -- enable nvim-dap-ui
+        enabled = false,
+        enable_ui = false, -- enable nvim-dap-ui
       }
 		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 	},
@@ -89,6 +89,7 @@ require("catppuccin").setup({
   custom_highlights = {
       Comment = { fg = colors.overlay1 },
       LineNr = { fg = colors.overlay1 },
+      TreesitterContextLineNumber = { fg = colors.overlay1 },
       debugBreakPoint = { fg = '#AA0000' },
       CursorLine = { bg = colors.none },
       CursorLineNr = { fg = colors.lavender },
@@ -96,6 +97,7 @@ require("catppuccin").setup({
       DiagnosticVirtualTextWarn = { bg = colors.none },
       DiagnosticVirtualTextInfo = { bg = colors.none },
       DiagnosticVirtualTextHint = { bg = colors.none },
+      VertSplit = { fg = '#6c7086' },
     },
 })
 

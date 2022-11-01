@@ -21,6 +21,15 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
+map('n', '<C-w>H', '<C-w>H:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>J', '<C-w>J:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>K', '<C-w>K:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>L', '<C-w>L:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>r', '<C-w>r:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>R', '<C-w>R:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>x', '<C-w>x:lua require("lualine").refresh()<CR>')
+map('n', '<C-w>X', '<C-w>X:lua require("lualine").refresh()<CR>')
+
 map('n', '<Esc>', ':noh<CR>')
 
 map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>"', { silent = false })
@@ -41,7 +50,7 @@ map('t', '<C-j>', '<C-\\><C-n><C-w>j')
 map('t', '<C-k>', '<C-\\><C-n><C-w>k')
 map('t', '<C-l>', '<C-\\><C-n><C-w>l')
 
-map('i', "<C-l>", '<c-g>u<Esc>[s1z=`]a<c-g>u')
+map('i', '<C-l>', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 
 command('Config', ':e $MYVIMRC', {})
 
