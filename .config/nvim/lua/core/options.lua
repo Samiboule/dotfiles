@@ -11,7 +11,6 @@ opt.title = true
 opt.number = true
 opt.relativenumber = true
 opt.wildmode = 'longest,list,full'
-opt.smartindent = true
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4

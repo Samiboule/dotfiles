@@ -1,3 +1,5 @@
+require("core/utils")
+
 local function map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
   if opts then
@@ -40,6 +42,7 @@ map('n', '<leader>bb', '<cmd>lua require("fzf-lua").buffers()<CR>')
 map('n', '<leader><leader>', '<cmd>lua require("fzf-lua").files()<CR>')
 map('n', '<leader>j', '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>')
 map('n', '<leader>s', '<cmd>lua require("fzf-lua").live_grep()<CR>')
+map('n', '<leader>t', ':lua ToggleTerminal()<CR>')
 
 map('n', '<leader>v', ':setlocal ve=all<CR>')
 map('n', '<leader>u', ':setlocal ve=""<CR>')

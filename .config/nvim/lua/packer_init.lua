@@ -40,7 +40,10 @@ require('packer').startup(function(use)
   }
   use 'nvim-treesitter/nvim-treesitter-context'
   use 'neovim/nvim-lspconfig'
+  use 'j-hui/fidget.nvim'
   use	'windwp/nvim-autopairs'
+
+  use "folke/neodev.nvim"
 
   --[[ use 'mfussenegger/nvim-dap'
   use 'rcarriga/nvim-dap-ui'

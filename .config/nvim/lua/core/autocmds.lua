@@ -18,6 +18,28 @@ autocmd('TextYankPost', {
   end
 })
 
+augroup('CustomLSP', { clear = true })
+autocmd('BufEnter', {
+  group = 'CustomLSP',
+  pattern = '*.pl',
+  callback = function()
+    vim.lsp.start {
+      name = 'prolog_lsp',
+      cmd = {
+        'swipl',
+        '-g',
+        'use_module(library(lsp_server))',
+        '-g',
+        'lsp_server:main',
+        '-t',
+        'halt',
+        '--',
+        'stdio'
+      }
+    }
+  end
+})
+
 augroup('BuildSystems', { clear = true })
 autocmd('BufEnter', {
   group = 'BuildSystems',
@@ -66,7 +88,7 @@ autocmd('BufEnter', {
 augroup('setIndent', { clear = true })
 autocmd('Filetype', {
   group = 'setIndent',
-  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'lua', 'haskell' },
+  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'lua', 'haskell', 'bib' },
   command = 'setlocal shiftwidth=2 tabstop=2'
 })
 

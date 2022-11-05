@@ -116,8 +116,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll)),
       ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge)),
       -- Skip over tab group
-      ((modm .|. controlMask, xK_period), onGroup W.focusUp'),
-      ((modm .|. controlMask, xK_comma), onGroup W.focusDown'),
+      ((modm .|. controlMask, xK_period), focusUp),
+      ((modm .|. controlMask, xK_comma), focusDown),
       -- Toggle the status bar gap
       -- Use this binding with avoidStruts from Hooks.ManageDocks.
       -- See also the statusBar function from Hooks.DynamicLog.

@@ -1,3 +1,5 @@
+require("neodev").setup()
+
 -- Have borders
 vim.lsp.handlers["textDocument/hover"] =
   vim.lsp.with(
