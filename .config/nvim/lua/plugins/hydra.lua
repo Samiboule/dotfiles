@@ -32,12 +32,26 @@ Hydra({
       { '<Esc>', nil, { exit = true } },
    }
 })
+
+local windowhint = [[
+  ^ ^ Move      ^^^^^Positioning   ^^^^^^Split
+^^------------- ^^^^^----------- ^^^^^^---------
+^    _<C-k>_ ^       _r_ _K_ _R_    ^ ^   _k_     ^^_s_: horizontally
+ _<C-h>_ _<C-l>_     _H_ ^ ^ _L_      _h_ ^ ^ _l_   _v_: vertically
+^    _<C-j>_ ^       _x_ _J_ _X_    ^ ^   _j_     ^^_Q_, _<C-q>_: close
+    ^^focus       ^^^^^windows _e_: equalize ^^^^^^^_o_: remain only
+]]
+
 Hydra({
 	name = "Change / Resize Window",
+  hint = windowhint,
 	mode = { "n" },
 	body = "<C-q>",
 	config = {
 		-- color = "pink",
+      hint = {
+         border = 'rounded'
+      },
     invoke_on_body = true,
 	},
 	heads = {
@@ -64,8 +78,12 @@ Hydra({
 		{ "X", "<C-w>X:lua require('lualine').refresh()<CR>" },
 
     -- create splits
-    { "S", "<C-w>s"},
-    { "V", "<C-w>v"},
+    { "s", "<C-w>s"},
+    { "v", "<C-w>v"},
+
+    -- remain only
+    { 'o',     '<C-w>o', { exit = true, desc = 'remain only' } },
+    { '<C-o>', '<C-w>o', { exit = true, desc = false } },
 
 		-- equalize window sizes
 		{ "e", "<C-w>=" },

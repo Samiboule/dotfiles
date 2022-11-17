@@ -27,12 +27,17 @@ import XMonad.Util.Loggers
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.WorkspaceCompare
+import XMonad.Util.NamedScratchpad
 
 myTerminal = "alacritty"
 
 myModMask = mod4Mask
 
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+scratchpads = [
+  NS "terminal" "alacritty --class scratch,scratch" (className =? "scratch")
+    (customFloating $ W.RationalRect (1/2) (1/2) (1/2) (1/2)) ]
 
 floatBranch :: X () -> X () -> Window -> X ()
 floatBranch t f w = do
@@ -53,6 +58,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
+      --launch scratchpad terminal
+      ((modm, xK_t), namedScratchpadAction scratchpads "terminal"),
       -- launch dmenu
       ((modm, xK_p), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/rofi.rasi"),
       -- launch gmrun
@@ -94,7 +101,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Expand the master area
       ((modm, xK_l), sendMessage Expand),
       -- Push window back into tiling
-      ((modm, xK_t), withFocused $ toggleFloat),
+      ((modm, xK_o), withFocused $ toggleFloat),
       -- Increment the number of windows in the master area
       ((modm, xK_comma), sendMessage (IncMasterN 1)),
       -- Deincrement the number of windows in the master area
@@ -240,7 +247,8 @@ myManageHook =
       className =? "lemonbar" --> doIgnore,
       resource =? "lemonbar" --> doIgnore,
       resource =? "desktop_window" --> doIgnore,
-      resource =? "kdesktop" --> doIgnore
+      resource =? "kdesktop" --> doIgnore,
+      namedScratchpadManageHook scratchpads
     ]
 
 myLogHook = return ()
@@ -308,7 +316,7 @@ main = do
         handleEventHook = myHandleEventHook
       }
 
--- | Finally, a copy of the default bindings in simple textual tabular format.
+-- | Finally, a copy of the bindings in simple textual tabular format.
 help :: String
 help =
   unlines
@@ -316,6 +324,7 @@ help =
       "",
       "-- launching and killing programs",
       "mod-Shift-Enter  Launch terminal",
+      "mod-t            Launch scratchpad terminal",
       "mod-p            Launch application launcher",
       "mod-Shift-p      Launch window switcher",
       "mod-Shift-c      Close/kill the focused window",
@@ -350,7 +359,7 @@ help =
       "mod-l  Expand the master area",
       "",
       "-- floating layer support",
-      "mod-t               Push window back into tiling; unfloat and re-tile it",
+      "mod-o               Push window back into tiling; unfloat and re-tile it",
       "mod-Shift-{h,j,k,l} Move window in corresponding direction",
       "mod-Ctrl-{h,j,k,l}  Resize window in corresponding direction",
       "",

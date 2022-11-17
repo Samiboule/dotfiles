@@ -38,10 +38,15 @@ require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
+  use {
+    'nvim-treesitter/playground',
+    run = ':TSInstall query'
+  }
   use 'nvim-treesitter/nvim-treesitter-context'
   use 'neovim/nvim-lspconfig'
   use 'j-hui/fidget.nvim'
   use	'windwp/nvim-autopairs'
+  use 'lewis6991/satellite.nvim'
 
   use "folke/neodev.nvim"
 

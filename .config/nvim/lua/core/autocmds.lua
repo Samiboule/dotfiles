@@ -49,7 +49,12 @@ autocmd('BufEnter', {
 autocmd('BufEnter', {
   group = 'BuildSystems',
   pattern = '*.pl',
-  command = 'nnoremap <leader>p :w<CR>:vsp<CR>:term swipl %<CR>'
+  command = 'let b:repl_name="swipl %"'
+})
+autocmd('BufEnter', {
+  group = 'BuildSystems',
+  pattern = '*.py',
+  command = 'let b:repl_name="python"'
 })
 
 augroup('NumberToggle', { clear = true })

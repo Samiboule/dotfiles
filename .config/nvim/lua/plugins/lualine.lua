@@ -13,8 +13,10 @@ end
 local function charFiller()
   if vim.fn.winnr() ~= vim.fn.winnr('j') then
     vim.opt_local.fillchars:append 'stlnc:─'
+    vim.opt_local.fillchars:append 'stl:─'
   else
     vim.opt_local.fillchars:append 'stlnc: '
+    vim.opt_local.fillchars:append 'stl: '
   end
   return ""
 end
