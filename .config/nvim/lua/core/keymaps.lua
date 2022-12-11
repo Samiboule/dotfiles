@@ -36,10 +36,7 @@ map('n', '<Esc>', ':noh<CR>')
 
 map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>"', { silent = false })
 
-map('n', '<leader>bn', ':bn<CR>')
-map('n', '<leader>bd', ':bd!<CR>')
-map('n', '<leader>bp', ':bp<CR>')
-map('n', '<leader>bb', '<cmd>lua require("fzf-lua").buffers()<CR>')
+map('n', '<leader>b', '<cmd>lua require("fzf-lua").buffers()<CR>')
 map('n', '<leader><leader>', '<cmd>lua require("fzf-lua").files()<CR>')
 map('n', '<leader>j', '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>')
 map('n', '<leader>s', '<cmd>lua require("fzf-lua").live_grep()<CR>')

@@ -60,6 +60,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf),
       --launch scratchpad terminal
       ((modm, xK_t), namedScratchpadAction scratchpads "terminal"),
+      --dynamic scratchpads
+      ((modm .|. shiftMask, xK_a), withFocused $ toggleDynamicNSP "dyn1"),
+      ((modm .|. shiftMask, xK_b), withFocused $ toggleDynamicNSP "dyn2"),
+      ((modm, xK_a)  , dynamicNSPAction "dyn1"),
+      ((modm, xK_b)  , dynamicNSPAction "dyn2"),
+      --go to scratchpad workspace
+      ((modm, xK_BackSpace), windows $ W.greedyView scratchpadWorkspaceTag),
       -- launch dmenu
       ((modm, xK_p), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/rofi.rasi"),
       -- launch gmrun
@@ -129,7 +136,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Use this binding with avoidStruts from Hooks.ManageDocks.
       -- See also the statusBar function from Hooks.DynamicLog.
       --
-      ((modm, xK_b), sendMessage ToggleStruts),
+      -- ((modm, xK_b), sendMessage ToggleStruts),
       -- Audio hotkeys
       ((0, xF86XK_AudioMute), spawn "amixer sset Master toggle"),
       ((0, xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; pactl set-sink-volume 0 +5%"),
@@ -325,6 +332,11 @@ help =
       "-- launching and killing programs",
       "mod-Shift-Enter  Launch terminal",
       "mod-t            Launch scratchpad terminal",
+      "mod-Shift-a      Make window into scratchpad 1",
+      "mod-Shift-b      Make window into scratchpad 1",
+      "mod-a            Show scratchpad 1",
+      "mod-b            Show scratchpad 2",
+      "mod-backspace    Go to scratchpad workspace",
       "mod-p            Launch application launcher",
       "mod-Shift-p      Launch window switcher",
       "mod-Shift-c      Close/kill the focused window",

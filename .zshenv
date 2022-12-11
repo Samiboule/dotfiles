@@ -34,6 +34,7 @@ export BROWSER="firefox"
 export FZF_DEFAULT_COMMAND="find ."
 export TERMINAL=/usr/bin/alacritty
 export GTK_THEME=Adwaita:dark
+export MANPAGER='nvim +Man!'
 
 export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx

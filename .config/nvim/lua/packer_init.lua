@@ -43,6 +43,7 @@ require('packer').startup(function(use)
     run = ':TSInstall query'
   }
   use 'nvim-treesitter/nvim-treesitter-context'
+  use 'nyngwang/murmur.lua'
   use 'neovim/nvim-lspconfig'
   use 'j-hui/fidget.nvim'
   use	'windwp/nvim-autopairs'

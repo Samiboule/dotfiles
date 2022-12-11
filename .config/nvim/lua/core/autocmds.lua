@@ -19,26 +19,6 @@ autocmd('TextYankPost', {
 })
 
 augroup('CustomLSP', { clear = true })
-autocmd('BufEnter', {
-  group = 'CustomLSP',
-  pattern = '*.pl',
-  callback = function()
-    vim.lsp.start {
-      name = 'prolog_lsp',
-      cmd = {
-        'swipl',
-        '-g',
-        'use_module(library(lsp_server))',
-        '-g',
-        'lsp_server:main',
-        '-t',
-        'halt',
-        '--',
-        'stdio'
-      }
-    }
-  end
-})
 
 augroup('BuildSystems', { clear = true })
 autocmd('BufEnter', {
@@ -108,4 +88,27 @@ augroup('Mkdir', { clear = true })
 autocmd('BufWritePre', {
   pattern = '*',
   command = 'call mkdir(expand("<afile>:p:h"), "p")'
+})
+
+augroup('Murmur', {clear = true})
+autocmd('CursorHold', {
+  group = 'Murmur',
+  pattern = '*',
+  callback = function ()
+        -- skip when a float-win already exists.
+        if vim.w.diag_shown then return end
+
+        -- open float-win when hovering on a cursor-word.
+        if vim.w.cursor_word ~= '' then
+          vim.diagnostic.open_float(nil, {
+            focusable = true,
+            close_events = { 'InsertEnter', 'User CloseFloatWin' },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor',
+          })
+          vim.w.diag_shown = true
+        end
+      end
 })
