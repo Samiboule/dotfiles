@@ -36,6 +36,11 @@ autocmd('BufEnter', {
   pattern = '*.py',
   command = 'let b:repl_name="python"'
 })
+autocmd('BufEnter', {
+  group = 'BuildSystems',
+  pattern = '*.rkt',
+  command = 'let b:repl_name="racket"'
+})
 
 augroup('NumberToggle', { clear = true })
 autocmd({'BufEnter','FocusGained','InsertLeave','WinEnter'}, {
@@ -73,7 +78,7 @@ autocmd('BufEnter', {
 augroup('setIndent', { clear = true })
 autocmd('Filetype', {
   group = 'setIndent',
-  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'lua', 'haskell', 'bib' },
+  pattern = { 'scheme', 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'lua', 'haskell', 'bib' },
   command = 'setlocal shiftwidth=2 tabstop=2'
 })
 
