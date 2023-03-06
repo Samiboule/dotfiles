@@ -265,7 +265,7 @@ myStartupHook = do
   spawnOnce "startupscript &"
   setWMName "LG3D"
 
-myHandleEventHook = swallowEventHook (className =? "Alacritty") (return True)
+myHandleEventHook = swallowEventHook (className =? "Alacritty") (className /=? "Erlang")
 
 curr :: WorkspaceId -> String
 curr a = ""
