@@ -34,7 +34,12 @@ require("lazy").setup({
     dependencies = 'nvim-lua/plenary.nvim',
   },
   'norcalli/nvim-colorizer.lua',
-  'jinh0/eyeliner.nvim',
+  'xiyaowong/nvim-cursorword',
+  {
+    'jinh0/eyeliner.nvim',
+    enabled = true,
+  },
+  "lukas-reineke/indent-blankline.nvim",
   'nvim-lualine/lualine.nvim',
   'mbbill/undotree',
   'anuvyklack/hydra.nvim',
@@ -48,11 +53,24 @@ require("lazy").setup({
     build = ':TSInstall query',
   },
   'nvim-treesitter/nvim-treesitter-context',
-  'nyngwang/murmur.lua',
   'neovim/nvim-lspconfig',
+  {
+    'mrcjkb/haskell-tools.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
+    branch = '1.x.x',
+  },
   'j-hui/fidget.nvim',
+  'h-hg/fcitx.nvim',
   'windwp/nvim-autopairs',
-  'lewis6991/satellite.nvim',
+  {
+    'Wansmer/treesj',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require('treesj').setup({
+        use_default_keymaps = false,
+      })
+    end
+  },
   'folke/neodev.nvim',
   --[[ 'mfussenegger/nvim-dap'
   'rcarriga/nvim-dap-ui'

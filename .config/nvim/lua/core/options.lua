@@ -38,3 +38,18 @@ opt.nrformats = "alpha,octal,bin,hex,unsigned"
 
 vim.api.nvim_command('syntax on')
 -- opt.statusline='%m\ %F\ %y\ %{&fileencoding?&fileencoding:&encoding}\ %=%(C:%c\ L:%l\ %P%)'
+
+vim.cmd([[
+let g:clipboard = {
+      \   'name': 'xsel_override',
+      \   'copy': {
+      \      '+': 'xsel --input --clipboard',
+      \      '*': 'xsel --input --primary',
+      \    },
+      \   'paste': {
+      \      '+': 'xsel --output --clipboard',
+      \      '*': 'xsel --output --primary',
+      \   },
+      \   'cache_enabled': 1,
+      \ }
+]])

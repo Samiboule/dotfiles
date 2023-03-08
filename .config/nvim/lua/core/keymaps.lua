@@ -1,5 +1,3 @@
-require("core/utils")
-
 local function map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
   if opts then
@@ -18,6 +16,13 @@ map('n', 'c', '"_c')
 map('v', '>', '>gv')
 map('v', '<', '<gv')
 
+map('n', '<A-j>', ':m .+1<CR>==')
+map('n', '<A-k>', ':m .-2<CR>==')
+map('i', '<A-j>', '<Esc>:m .+1<CR>==gi')
+map('i', '<A-k>', '<Esc>:m .-2<CR>==gi')
+map('v', '<A-j>', ':m \'>+1<CR>gv=gv')
+map('v', '<A-k>', ':m \'<-2<CR>gv=gv')
+
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
@@ -34,14 +39,12 @@ map('n', '<C-w>X', '<C-w>X:lua require("lualine").refresh()<CR>')
 
 map('n', '<Esc>', ':noh<CR>')
 
-map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>"', { silent = false })
+map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>', { silent = false })
 
 map('n', '<leader>b', '<cmd>lua require("fzf-lua").buffers()<CR>')
 map('n', '<leader><leader>', '<cmd>lua require("fzf-lua").files()<CR>')
 map('n', '<leader>j', '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>')
 map('n', '<leader>s', '<cmd>lua require("fzf-lua").live_grep()<CR>')
-map('n', '<leader>t', ':lua ToggleTerminal(false)<CR>')
-map('n', '<leader>p', ':lua ToggleTerminal(true)<CR>')
 
 map('n', '<leader>v', ':setlocal ve=all<CR>')
 map('n', '<leader>u', ':setlocal ve=""<CR>')
