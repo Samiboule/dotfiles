@@ -25,6 +25,7 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/default
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
 
 export EDITOR="nvim"
 export PAGER="less"

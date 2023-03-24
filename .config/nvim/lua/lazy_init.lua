@@ -59,6 +59,7 @@ require("lazy").setup({
     dependencies = 'nvim-lua/plenary.nvim',
     branch = '1.x.x',
   },
+  'akinsho/toggleterm.nvim',
   'j-hui/fidget.nvim',
   'h-hg/fcitx.nvim',
   'windwp/nvim-autopairs',
@@ -66,15 +67,18 @@ require("lazy").setup({
     'Wansmer/treesj',
     dependencies = 'nvim-treesitter/nvim-treesitter',
     config = function()
+      local tsj_utils = require('treesj.langs.utils')
       require('treesj').setup({
         use_default_keymaps = false,
+        langs = {
+          scheme = {
+            ['list'] = tsj_utils.set_preset_for_list(),
+          },
+        },
       })
     end
   },
   'folke/neodev.nvim',
-  --[[ 'mfussenegger/nvim-dap'
-  'rcarriga/nvim-dap-ui'
-  'theHamsta/nvim-dap-virtual-text' ]]
   'L3MON4D3/LuaSnip',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-buffer',
@@ -82,4 +86,8 @@ require("lazy").setup({
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
   'saadparwaiz1/cmp_luasnip',
+
+  --[[ 'mfussenegger/nvim-dap'
+  'rcarriga/nvim-dap-ui'
+  'theHamsta/nvim-dap-virtual-text' ]]
 })

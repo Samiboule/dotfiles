@@ -1,3 +1,5 @@
+local s = require('startingup')
+
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -16,6 +18,13 @@ autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({ higroup = 'IncSearch', timeout = '1000' })
   end
+})
+
+augroup('Filetypes', {clear = true})
+autocmd({'BufNewFile', 'BufRead'}, {
+  group = 'Filetypes',
+  pattern = '*.rkt',
+  command = 'set filetype=racket',
 })
 
 augroup('CustomLSP', { clear = true })
@@ -91,6 +100,12 @@ autocmd('BufWritePost', {
 
 augroup('Mkdir', { clear = true })
 autocmd('BufWritePre', {
+  group = 'Mkdir',
   pattern = '*',
   command = 'call mkdir(expand("<afile>:p:h"), "p")'
+})
+
+autocmd('VimEnter', {
+  pattern = '*',
+  callback = s.startupfunc
 })

@@ -81,9 +81,15 @@ vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'texlab', 'rust_analyzer', 'clangd', 'erlangls', 'lua_ls', 'prolog_ls' }
+local servers = { 'racket_langserver', 'texlab', 'rust_analyzer', 'clangd', 'erlangls', 'lua_ls', 'prolog_ls' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
   }
 end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false
+    }
+)
