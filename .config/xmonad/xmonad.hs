@@ -255,6 +255,7 @@ myManageHook =
       resource =? "lemonbar" --> doIgnore,
       resource =? "desktop_window" --> doIgnore,
       resource =? "kdesktop" --> doIgnore,
+      title =? "My Window" --> doFloat,
       namedScratchpadManageHook scratchpads
     ]
 
@@ -265,25 +266,18 @@ myStartupHook = do
   spawnOnce "startupscript &"
   setWMName "LG3D"
 
-myHandleEventHook = swallowEventHook (className =? "Alacritty") (className /=? "Erlang")
+myHandleEventHook = swallowEventHook (className =? "Alacritty") (className /=? "Erlang" <&&> title /=? "My Window")
 
 curr :: WorkspaceId -> String
 curr a = ""
 
 myPPLayout :: String -> String
-myPPLayout x =
-  if isInfixOf "Mirror" x
-    then "M"
-    else
-      if isInfixOf "Tall" x
-        then "D"
-        else
-          if isInfixOf "Tabbed" x
-            then "T"
-            else
-              if isInfixOf "Full" x
-                then "F"
-                else ""
+myPPLayout x
+  | isInfixOf "Mirror" x = "M"
+  | isInfixOf "Tall" x = "D"
+  | isInfixOf "Tabbed" x = "T"
+  | isInfixOf "Full" x = "F"
+  | otherwise = ""
 
 myPP =
   def

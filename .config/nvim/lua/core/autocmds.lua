@@ -26,6 +26,11 @@ autocmd({'BufNewFile', 'BufRead'}, {
   pattern = '*.rkt',
   command = 'set filetype=racket',
 })
+autocmd({'BufNewFile', 'BufRead'}, {
+  group = 'Filetypes',
+  pattern = '*.cl',
+  command = 'set filetype=c',
+})
 
 augroup('CustomLSP', { clear = true })
 

@@ -1,6 +1,6 @@
 set previewer '~/.config/lf/scope'
 set cleaner '~/.config/lf/cleaner'
-set hidden on
+set hidden true
 set number
 set relativenumber
 set mouse

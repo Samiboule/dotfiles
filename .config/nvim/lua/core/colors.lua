@@ -101,11 +101,41 @@ require("catppuccin").setup({
     },
 })
 
+
+require("leaf").setup({
+    underlineStyle = "undercurl",
+    commentStyle = "italic",
+    functionStyle = "NONE",
+    keywordStyle = "italic",
+    statementStyle = "bold",
+    typeStyle = "NONE",
+    variablebuiltinStyle = "italic",
+    transparent = true,
+    colors = {},
+    overrides = {},
+    theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
+    contrast = "high", -- default, alternatives: "medium", "high"
+})
+
 vim.cmd([[
 let g:catppuccin_flavour = "mocha"
 
 colorscheme catppuccin
-" transparent bg
-" hi Normal guibg=NONE ctermbg=NONE
-" hi clear LineNr
 ]])
+
+-- vim.cmd([[
+--   colorscheme nightfox
+-- ]])
+
+-- vim.cmd([[
+-- colorscheme nvimgelion
+-- transparent bg
+-- hi Normal guibg=NONE ctermbg=NONE
+-- hi clear LineNr
+-- hi IndentBlanklineChar gui=nocombine guifg=#444C55
+-- hi IndentBlanklineSpaceChar gui=nocombine guifg=#4d5154
+-- " NOTE: don't use `gui=nocombine` here to have correct coloring of gitsigns.nvim.
+-- hi IndentBlanklineContextStart gui=underline guisp=#FB5E2A
+-- ]])
+
+-- vim.cmd("colorscheme leaf")

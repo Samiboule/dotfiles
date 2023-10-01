@@ -25,6 +25,8 @@ require("lazy").setup({
   'lewis6991/gitsigns.nvim',
   'lervag/vimtex',
   'EdenEast/nightfox.nvim',
+  'nyngwang/nvimgelion',
+  'daschw/leaf.nvim',
   {
     'catppuccin/nvim',
     name = 'catppuccin',
@@ -60,8 +62,12 @@ require("lazy").setup({
     branch = '1.x.x',
   },
   'akinsho/toggleterm.nvim',
-  'j-hui/fidget.nvim',
+  {
+    'j-hui/fidget.nvim',
+    enabled = false,
+  },
   'h-hg/fcitx.nvim',
+  'suxpert/vimcaps',
   'windwp/nvim-autopairs',
   {
     'Wansmer/treesj',
