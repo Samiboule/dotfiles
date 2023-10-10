@@ -7,3 +7,6 @@ alias grep="grep --color=auto"
 v() {
     nvim $(find . | fzf --height 40% --reverse)
 }
+c() {
+    cd $(find . -type d | fzf --height 40% --reverse)
+}

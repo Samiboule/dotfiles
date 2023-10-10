@@ -15,6 +15,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.WindowSwallowing
+import XMonad.Layout.Spacing
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
@@ -68,9 +69,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       --go to scratchpad workspace
       ((modm, xK_BackSpace), windows $ W.greedyView scratchpadWorkspaceTag),
       -- launch dmenu
-      ((modm, xK_p), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/rofi.rasi"),
+      ((modm, xK_p), spawn "rofi -show drun -theme Arc-Dark -config ~/.config/rofi/config.rasi"),
       -- launch gmrun
-      ((modm .|. shiftMask, xK_p), spawn "rofi -show window -theme Arc-Dark -config ~/.config/rofi/rofi.rasi"),
+      ((modm .|. shiftMask, xK_p), spawn "rofi -show window -theme Arc-Dark -config ~/.config/rofi/config.rasi"),
       -- close focused window
       ((modm .|. shiftMask, xK_c), kill1),
       ((modm, xK_v), windows copyToAll), -- @@ Make focused window always visible
@@ -141,6 +142,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((0, xF86XK_AudioMute), spawn "amixer sset Master toggle"),
       ((0, xF86XK_AudioRaiseVolume), spawn "amixer sset Master unmute ; pactl set-sink-volume 0 +5%"),
       ((0, xF86XK_AudioLowerVolume), spawn "amixer sset Master unmute ; pactl set-sink-volume 0 -5%"),
+      ((0, xF86XK_MonBrightnessUp), spawn "sudo xbacklight -inc 5"),
+      ((0, xF86XK_MonBrightnessDown), spawn "sudo xbacklight -dec 5"),
       -- Screenshot hotkeys
       ((0, xK_Print), spawn "date --iso-8601=seconds | xargs -I {} sh -c 'maim -B ~/screenshots/{}.png && notify-send \"Screenshot saved to ~/screenshots/{}.png!\"'"),
       ((controlMask, xK_Print), spawn "date --iso-8601=seconds | xargs -I {} sh -c 'maim -B -s ~/screenshots/{}.png && notify-send \"Screenshot saved to ~/screenshots/{}.png!\"'"),
@@ -223,8 +226,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
 myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ avoidStruts $ (tiled ||| mtiled ||| tabular)
   where
     -- default tiling algorithm partitions the screen into two panes
-    tiled = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ Tall nmaster delta ratio
-    mtiled = windowNavigation $ addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ boringWindows $ Mirror $ Tall nmaster delta ratio
+    tiled = addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ smartSpacing 0 $ configurableNavigation (noNavigateBorders) $ boringWindows $ Tall nmaster delta ratio
+    mtiled = addTabs shrinkText myTabConfig $ subLayout [] (Simplest) $ smartSpacing 0 $ configurableNavigation (noNavigateBorders) $ boringWindows $ Mirror $ Tall nmaster delta ratio
 
     -- tabbed layout
     tabular = tabbed shrinkText myTabConfig
@@ -242,6 +245,10 @@ myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ avoidStruts $ (tiled |
     myTabConfig =
       def
         { decoHeight = 40
+        , activeColor = "#aaaafd"
+        , inactiveColor = "#666666"
+        , activeBorderWidth = 0
+        , inactiveBorderWidth = 0
         }
 
 myManageHook =
@@ -263,7 +270,6 @@ myLogHook = return ()
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawnOnce "startupscript &"
   setWMName "LG3D"
 
 myHandleEventHook = swallowEventHook (className =? "Alacritty") (className /=? "Erlang" <&&> title /=? "My Window")
@@ -299,7 +305,7 @@ myPP =
     }
 
 main = do
-  mySB <- statusBarPipe "lemonbar -g 2760x40 -d -B \\#000000 -f \"JetBrains Mono\"" (pure myPP)
+  mySB <- statusBarPipe "lemonbar -g 3000x40 -d -B \\#000000FF -f \"JetBrains Mono NF\"" (pure myPP)
   xmonad . ewmhFullscreen . ewmh . docks . withSB mySB $
     def
       { terminal = myTerminal,

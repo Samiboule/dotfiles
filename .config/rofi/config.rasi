@@ -1,12 +1,12 @@
 configuration {
-modes: "window,drun,run,ssh,calc,emoji";
-/*	font: "mono 12";*/
+	modes: "window,drun,run,ssh,emoji,calc";
+	font: "JetBrains Mono NF 20";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
 /*	fixed-num-lines: true;*/
 /*	show-icons: false;*/
-terminal: "/usr/bin/alacritty --class fAlacritty,fAlacritty";
+/*	terminal: "rofi-sensible-terminal";*/
 /*	ssh-client: "ssh";*/
 /*	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
 /*	run-command: "{cmd}";*/
@@ -37,7 +37,7 @@ terminal: "/usr/bin/alacritty --class fAlacritty,fAlacritty";
 /*	tokenize: true;*/
 /*	m: "-5";*/
 /*	filter: ;*/
-	dpi: 192;
+/*	dpi: -1;*/
 /*	threads: 0;*/
 /*	scroll-method: 0;*/
 /*	window-format: "{w}    {c}   {t}";*/
@@ -64,6 +64,8 @@ terminal: "/usr/bin/alacritty --class fAlacritty,fAlacritty";
 /*	display-combi: ;*/
 /*	display-keys: ;*/
 /*	display-filebrowser: ;*/
+/*	display-calc: ;*/
+/*	display-emoji: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
 /*	kb-clear-line: "Control+w";*/
@@ -149,3 +151,4 @@ terminal: "/usr/bin/alacritty --class fAlacritty,fAlacritty";
       sorting-method:    "name";
   }
 }
+@theme "Arc-Dark"

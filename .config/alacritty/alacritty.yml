@@ -33,17 +33,23 @@ colors:
 
 font:
   normal:
-    family: JetBrains Mono
+    family: JetBrains Mono NF
+    # family: ComicShannsMono Nerd Font
+    # family: ProggyClean Nerd Font
     style: Regular
   bold:
-    family: JetBrains Mono
+    family: JetBrains Mono NF
+    # family: ComicShannsMono Nerd Font
+    # family: ProggyClean Nerd Font
     style: Bold
   italic:
-    family: JetBrains Mono
+    family: JetBrains Mono NF
+    # family: ComicShannsMono Nerd Font
+    # family: ProggyClean Nerd Font
     style: Italic
 
 window:
-  opacity: 0.9
+  opacity: 0.8
 
 key_bindings:
   - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }

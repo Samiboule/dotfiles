@@ -2,6 +2,25 @@
 
 #~/.config/xmonad/scripts/lemonbar.sh | lemonbar -B #000000 -f "JetBrains Mono"
 
+xdo raise $(xdo id -a stalonetray)
+
+GetWidth() {
+    WIDTH=$(xprop -name stalonetray -f WM_SIZE_HINTS 32i ' $5\n' WM_NORMAL_HINTS | cut -f2 --delimiter=' ')
+    WIDTH=$((WIDTH/20))
+
+    CHAR=" "
+    TEXT=""
+
+    while [ "$((WIDTH != 0))" -ne 0 ]
+    # for i in {1..$WIDTH}
+    do
+        TEXT="${TEXT}${CHAR}"
+        : "$((WIDTH = WIDTH - 1))"
+    done
+
+    echo "$TEXT"
+}
+
 #Define the clock
 Clock() {
     DATETIME=$(date "+%a %b %d, %T")
@@ -31,4 +50,4 @@ Audio() {
 }
 
 # Print everything
-echo "%{r}$(Battery) | $(Audio) | $(Clock)"
+echo "%{r}$(Battery) | $(Audio) | $(Clock) $(GetWidth)"

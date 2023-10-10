@@ -60,6 +60,7 @@ require("lazy").setup({
     'mrcjkb/haskell-tools.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
     branch = '1.x.x',
+    enabled = false,
   },
   'akinsho/toggleterm.nvim',
   {
