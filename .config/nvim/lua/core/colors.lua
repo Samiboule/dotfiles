@@ -79,10 +79,6 @@ require("catppuccin").setup({
         information = { "underline" },
       },
     },
-    dap = {
-        enabled = false,
-        enable_ui = false, -- enable nvim-dap-ui
-      }
 		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 	},
 	color_overrides = {},

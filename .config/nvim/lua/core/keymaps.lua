@@ -41,13 +41,19 @@ map('n', '<Esc>', ':noh<CR>')
 
 map('n', '<F6>', ':setlocal spell! spelllang=en_us<CR>', { silent = false })
 
+map('n', '<leader>rw', ':Ex<CR>')
 map('n', '<leader>b', '<cmd>lua require("fzf-lua").buffers()<CR>')
 map('n', '<leader><leader>', '<cmd>lua require("fzf-lua").files()<CR>')
-map('n', '<leader>j', '<cmd>lua require("fzf-lua").lsp_document_symbols()<CR>')
+map('n', '<leader>j', '<cmd>lua require("fzf-lua").lsp_workspace_symbols()<CR>')
 map('n', '<leader>s', '<cmd>lua require("fzf-lua").live_grep()<CR>')
 
-map('n', '<leader>v', ':setlocal ve=all<CR>')
-map('n', '<leader>u', ':setlocal ve=""<CR>')
+map('x', "<leader>p", "\"_dP")
+
+map('n', '<leader>ve', ':setlocal ve=all<CR>')
+map('n', '<leader>nve', ':setlocal ve=""<CR>')
+
+map('n', '<leader>cp', ':cprev<CR>')
+map('n', '<leader>cn', ':cnext<CR>')
 
 map('t', '<Esc>', '<C-\\><C-n>')
 map('t', '<C-h>', '<C-\\><C-n><C-w>h')

@@ -40,21 +40,6 @@ autocmd('BufEnter', {
   pattern = '*.rs',
   command = 'set makeprg=cargo\\ build\\ $*'
 })
-autocmd('BufEnter', {
-  group = 'BuildSystems',
-  pattern = '*.pl',
-  command = 'let b:repl_name="swipl %"'
-})
-autocmd('BufEnter', {
-  group = 'BuildSystems',
-  pattern = '*.py',
-  command = 'let b:repl_name="python"'
-})
-autocmd('BufEnter', {
-  group = 'BuildSystems',
-  pattern = '*.rkt',
-  command = 'let b:repl_name="racket"'
-})
 
 augroup('NumberToggle', { clear = true })
 autocmd({'BufEnter','FocusGained','InsertLeave','WinEnter'}, {

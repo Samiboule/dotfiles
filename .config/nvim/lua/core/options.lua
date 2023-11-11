@@ -29,12 +29,13 @@ opt.backspace = 'indent,eol,start'
 opt.matchpairs:append '<:>'
 opt.hidden = true
 opt.laststatus = 2
-opt.updatetime = 300
+opt.updatetime = 50
 opt.completeopt = "menu,menuone,noselect"
 opt.showbreak = ">>"
 opt.breakindent = true
 g.termdebug_wide = 163
 opt.nrformats = "alpha,octal,bin,hex,unsigned"
+opt.scrolloff = 8
 
 vim.api.nvim_command('syntax on')
 -- opt.statusline='%m\ %F\ %y\ %{&fileencoding?&fileencoding:&encoding}\ %=%(C:%c\ L:%l\ %P%)'

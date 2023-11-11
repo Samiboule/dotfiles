@@ -18,7 +18,6 @@ require("lazy").setup({
       require("Comment").setup()
     end,
   },
-  'lewis6991/impatient.nvim',
   'tpope/vim-characterize',
   'ibhagwan/fzf-lua',
   'nathom/filetype.nvim',
@@ -62,11 +61,6 @@ require("lazy").setup({
     branch = '1.x.x',
     enabled = false,
   },
-  'akinsho/toggleterm.nvim',
-  {
-    'j-hui/fidget.nvim',
-    enabled = false,
-  },
   'h-hg/fcitx.nvim',
   'suxpert/vimcaps',
   'windwp/nvim-autopairs',
@@ -79,7 +73,7 @@ require("lazy").setup({
         use_default_keymaps = false,
         langs = {
           scheme = {
-            ['list'] = tsj_utils.set_preset_for_list(),
+            ['list'] = tsj_utils.set_preset_for_args(),
           },
         },
       })
@@ -93,8 +87,4 @@ require("lazy").setup({
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
   'saadparwaiz1/cmp_luasnip',
-
-  --[[ 'mfussenegger/nvim-dap'
-  'rcarriga/nvim-dap-ui'
-  'theHamsta/nvim-dap-virtual-text' ]]
 })

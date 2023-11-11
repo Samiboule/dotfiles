@@ -5,8 +5,8 @@ alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settin
 alias lf=lfub
 alias grep="grep --color=auto"
 v() {
-    nvim $(find . | fzf --height 40% --reverse)
+    nvim "$(find . | fzf --height 40% --reverse)"
 }
 c() {
-    cd $(find . -type d | fzf --height 40% --reverse)
+    cd "$(find . -type d | fzf --height 40% --reverse)"
 }

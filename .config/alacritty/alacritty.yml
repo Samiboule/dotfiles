@@ -47,9 +47,11 @@ font:
     # family: ComicShannsMono Nerd Font
     # family: ProggyClean Nerd Font
     style: Italic
+  # size: 18
 
 window:
   opacity: 0.8
+  # opacity: 1
 
 key_bindings:
   - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }

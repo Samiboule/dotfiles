@@ -249,6 +249,8 @@ myLayout = lessBorders OnlyScreenFloat $ fullscreenFull $ avoidStruts $ (tiled |
         , inactiveColor = "#666666"
         , activeBorderWidth = 0
         , inactiveBorderWidth = 0
+        -- , fontName = "xft:ProggyClean Nerd Font:size=18"
+        , fontName = "xft:JetBrains Mono NF"
         }
 
 myManageHook =
@@ -305,6 +307,7 @@ myPP =
     }
 
 main = do
+  -- mySB <- statusBarPipe "lemonbar -g 3000x40 -d -B \\#000000FF -f \"ProggyClean Nerd Font:size=18\"" (pure myPP)
   mySB <- statusBarPipe "lemonbar -g 3000x40 -d -B \\#000000FF -f \"JetBrains Mono NF\"" (pure myPP)
   xmonad . ewmhFullscreen . ewmh . docks . withSB mySB $
     def

@@ -1,6 +1,10 @@
 local function spellEnabled()
   if vim.wo.spell then
-    return "SPELL"
+    if vim.o.spelllang == "en_us" then
+      return "ENGLISH"
+    else
+      return "SPELL"
+    end
   else
     return ""
   end
@@ -44,6 +48,9 @@ local function tabspace()
     return 'MI:' .. space_indent
   end
 end
+
+local active_col = { fg = '#cdd6f4' }
+local inactive_col = { fg = '#7f849c' }
 
 require('lualine').setup {
   options = {

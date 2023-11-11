@@ -7,11 +7,17 @@ precmd() {
     vcs_info
 }
 
+# randomcolor() {
+#     AR=("black" "blue" "green" "red")
+#     echo ${AR[$RANDOM % 4]}
+# }
+
 # Enable substitution in the prompt.
 setopt prompt_subst
 
 # Enable colors and change prompt:
 autoload -U colors && colors
+# PS1='%B%{$fg[''`randomcolor`'']%}[%n@%M %~${vcs_info_msg_0_}]%{$reset_color%}$%b '
 PS1='%B%{$fg[blue]%}[%n@%M %~${vcs_info_msg_0_}]%{$reset_color%}$%b '
 
 # History in cache directory:
